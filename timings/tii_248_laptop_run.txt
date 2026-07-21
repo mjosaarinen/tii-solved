@@ -1,0 +1,13 @@
+TII-248 — fresh end-to-end recovery on this laptop (reproduction control)
+========================================================================
+host:        AMD Ryzen AI 9 HX 370  (12 cores / 24 threads, 30 GiB) — "12-core laptop"
+date (UTC):  2026-07-21
+attack:      MinRank family (p,s)=(3,17); minrank + M4RI kernel, rust workers, 24 threads
+public key:  tii_public_keys/tii_248.txt  (sha256 1d5d4b1f…e5c164fc0)
+
+wall clock:  818.3 s  (13 min 38 s)
+peak RSS:    largest single process 0.35 GiB   (whole tree 0.36 GiB)
+terminal:    verified_recovery
+verified:    True  (13 checks); fresh key == committed key: support & polynomial MATCH
+
+Hemmert (ePrint 2026/1339, Table 1; 2x AMD EPYC 9745 = 2x128-core server): 17 h 18 min, 0.5 GB

@@ -1,0 +1,11 @@
+TII-213 — end-to-end HOVER recovery (large-memory machine)
+==========================================================
+This recovery is dominated by an exact binary kernel computation whose working
+set (~144 GiB) exceeds this laptop's 30 GiB, so it was run on a larger-memory
+machine. The recovered key is re-verified on this laptop (see tii_213_verify.txt).
+
+parameters:      m=9  r=10  n=496   (degree-p MinRank family)
+end-to-end wall: 24,277 s  (6 h 44 min 37 s)
+peak memory:     >= 144.55 GiB
+terminal:        recovered_verified
+public key:      tii_public_keys/tii_213.txt  (sha256 4edef7f0…8f75e49e)

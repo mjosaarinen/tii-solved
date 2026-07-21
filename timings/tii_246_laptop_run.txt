@@ -1,0 +1,24 @@
+TII-246 — fresh end-to-end HOVER recovery on this laptop
+========================================================
+host:        Linux 7.1.3+deb14-amd64
+cpu:         24 logical cores
+date (UTC):  2026-07-21
+command:     hov_mceliece.cli recover --tii 246 --seed 24600
+             --max-samples 3 --attack-params 3 36 --lowrank-backend hover
+             --hover-global-phases --hover-early-structural
+             --kernel-backend rust --kernel-m4ri-outer-tiles --kernel-m4ri-outer-threads 14
+             --goppa-workers 16 --goppa-reconstruction key_equation --goppa-key-equation-seed 246007
+public key:  tii_public_keys/tii_246.txt  (sha256 9b2fbe2c…b5b94690ec9)
+
+wall clock:  191.3 s  (3 min 11 s)
+peak resident memory:
+  largest single process : 2.68 GiB   (matches server 2.62 GiB)
+  whole process tree     : 10.71 GiB  (transient 16-process Goppa pool; << 30 GiB laptop)
+
+terminal:    verified_recovery
+verified:    True  (in-attack verifier, 13 checks)
+fresh key == committed key:  support MATCH, polynomial MATCH
+  degree-11 Goppa polynomial coefficients:
+  [500, 339, 157, 982, 510, 211, 122, 270, 694, 674, 953, 1]
+
+reference server figure (benchmarks/tii246_server_recovery.json): ~120-276 s / 2.62 GiB largest single process

@@ -1,0 +1,11 @@
+TII-129 — end-to-end HOVER recovery (large-memory machine)
+==========================================================
+This recovery is dominated by an exact binary kernel computation whose working
+set (~80 GiB) exceeds this laptop's 30 GiB, so it was run on a larger-memory
+machine. The recovered key is re-verified on this laptop (see tii_129_verify.txt).
+
+parameters:      m=9  r=9  n=509   (degree-p MinRank family)
+end-to-end wall: 16,228 s  (4 h 30 min 28 s)
+peak memory:     80.3 GiB
+terminal:        recovered_verified
+public key:      tii_public_keys/tii_129.txt  (sha256 8f1b37c5…9940f2f4)

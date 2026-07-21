@@ -1,0 +1,13 @@
+TII-83 — fresh end-to-end recovery on this laptop (reproduction control)
+=======================================================================
+host:        AMD Ryzen AI 9 HX 370  (12 cores / 24 threads, 30 GiB) — "12-core laptop"
+date (UTC):  2026-07-21
+attack:      MinRank family (p,s)=(4,5); minrank + M4RI kernel, rust workers, 24 threads
+public key:  tii_public_keys/tii_83.txt  (sha256 7980e22e…f304271e4)
+
+wall clock:  24.3 s
+peak RSS:    largest single process 1.71 GiB   (whole tree 1.96 GiB)
+terminal:    verified_recovery
+verified:    True  (13 checks); fresh key == committed key: support & polynomial MATCH
+
+Hemmert (ePrint 2026/1339, Table 1; 2x AMD EPYC 9745 = 2x128-core server): 13 min, 1.7 GB

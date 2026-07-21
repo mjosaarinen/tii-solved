@@ -1,0 +1,120 @@
+== TII-83 ==
+  [PASS] public_key_present         
+  [PASS] public_key_sha256_matches  
+  [PASS] public_matrix_over_gf2     
+  [PASS] field_matches_support      
+  [PASS] g_base_ring_matches_support
+  [PASS] field_degree_matches_m     
+  [PASS] goppa_degree_matches_r     
+  [PASS] length_matches             
+  [PASS] support_distinct           
+  [PASS] support_in_field           
+  [PASS] g_nonvanishing             
+  [PASS] public_rank_is_mr          
+  [PASS] rowspace_matches           
+  13/13 checks passed
+Secret key is CORRECT.
+
+== TII-129 ==
+  [PASS] public_key_present         
+  [PASS] public_key_sha256_matches  
+  [PASS] public_matrix_over_gf2     
+  [PASS] field_matches_support      
+  [PASS] g_base_ring_matches_support
+  [PASS] field_degree_matches_m     
+  [PASS] goppa_degree_matches_r     
+  [PASS] length_matches             
+  [PASS] support_distinct           
+  [PASS] support_in_field           
+  [PASS] g_nonvanishing             
+  [PASS] public_rank_is_mr          
+  [PASS] rowspace_matches           
+  13/13 checks passed
+Secret key is CORRECT.
+
+== TII-213 ==
+  [PASS] public_key_present         
+  [PASS] public_key_sha256_matches  
+  [PASS] public_matrix_over_gf2     
+  [PASS] field_matches_support      
+  [PASS] g_base_ring_matches_support
+  [PASS] field_degree_matches_m     
+  [PASS] goppa_degree_matches_r     
+  [PASS] length_matches             
+  [PASS] support_distinct           
+  [PASS] support_in_field           
+  [PASS] g_nonvanishing             
+  [PASS] public_rank_is_mr          
+  [PASS] rowspace_matches           
+  13/13 checks passed
+Secret key is CORRECT.
+
+== TII-240 ==
+  [PASS] public_key_present         
+  [PASS] public_key_sha256_matches  
+  [PASS] public_matrix_over_gf2     
+  [PASS] field_matches_support      
+  [PASS] g_base_ring_matches_support
+  [PASS] field_degree_matches_m     
+  [PASS] goppa_degree_matches_r     
+  [PASS] length_matches             
+  [PASS] support_distinct           
+  [PASS] support_in_field           
+  [PASS] g_nonvanishing             
+  [PASS] public_rank_is_mr          
+  [PASS] rowspace_matches           
+  13/13 checks passed
+Secret key is CORRECT.
+
+== TII-246 ==
+  [PASS] public_key_present         
+  [PASS] public_key_sha256_matches  
+  [PASS] public_matrix_over_gf2     
+  [PASS] field_matches_support      
+  [PASS] g_base_ring_matches_support
+  [PASS] field_degree_matches_m     
+  [PASS] goppa_degree_matches_r     
+  [PASS] length_matches             
+  [PASS] support_distinct           
+  [PASS] support_in_field           
+  [PASS] g_nonvanishing             
+  [PASS] public_rank_is_mr          
+  [PASS] rowspace_matches           
+  13/13 checks passed
+Secret key is CORRECT.
+
+== TII-248 ==
+  [PASS] public_key_present         
+  [PASS] public_key_sha256_matches  
+  [PASS] public_matrix_over_gf2     
+  [PASS] field_matches_support      
+  [PASS] g_base_ring_matches_support
+  [PASS] field_degree_matches_m     
+  [PASS] goppa_degree_matches_r     
+  [PASS] length_matches             
+  [PASS] support_distinct           
+  [PASS] support_in_field           
+  [PASS] g_nonvanishing             
+  [PASS] public_rank_is_mr          
+  [PASS] rowspace_matches           
+  13/13 checks passed
+Secret key is CORRECT.
+
+== TII-252 ==
+  [PASS] public_key_present         
+  [PASS] public_key_sha256_matches  
+  [PASS] public_matrix_over_gf2     
+  [PASS] field_matches_support      
+  [PASS] g_base_ring_matches_support
+  [PASS] field_degree_matches_m     
+  [PASS] goppa_degree_matches_r     
+  [PASS] length_matches             
+  [PASS] support_distinct           
+  [PASS] support_in_field           
+  [PASS] g_nonvanishing             
+  [PASS] public_rank_is_mr          
+  [PASS] rowspace_matches           
+  13/13 checks passed
+Secret key is CORRECT.
+
+Summary: 7/7 keys CORRECT (TII-83:ok, TII-129:ok, TII-213:ok, TII-240:ok, TII-246:ok, TII-248:ok, TII-252:ok)

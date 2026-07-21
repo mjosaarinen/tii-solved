@@ -1,0 +1,17 @@
+== TII-129 ==
+  [PASS] public_key_present         
+  [PASS] public_key_sha256_matches  
+  [PASS] public_matrix_over_gf2     
+  [PASS] field_matches_support      
+  [PASS] g_base_ring_matches_support
+  [PASS] field_degree_matches_m     
+  [PASS] goppa_degree_matches_r     
+  [PASS] length_matches             
+  [PASS] support_distinct           
+  [PASS] support_in_field           
+  [PASS] g_nonvanishing             
+  [PASS] public_rank_is_mr          
+  [PASS] rowspace_matches           
+  13/13 checks passed
+Secret key is CORRECT.
+
