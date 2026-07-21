@@ -10,7 +10,7 @@ This repository publishes further recovered secret keys for [TII McEliece key-re
 This repository is laid out in the same style as T. Hemmert's
 [`key-recovery-mceliece-tii-solutions`](https://github.com/tobhem/key-recovery-mceliece-tii-solutions): public keys, recovered secret keys, and one script that checks a recovered key against its public key.
 
-**Five of these challenges were previously unsolved** (at least as far as we know) — they are absent from the Hemmert archive (which covers 83–248 but not 129, 213, 240, 246, or 252). Two further challenges (83 and 248) are included as reproduction controls: the same code reproduces keys Hemmert already published, which exercises the whole pipeline end to end against a known answer. Originally 
+**Five of these challenges were previously unsolved** (at least as far as we know) — they are absent from the Hemmert archive (which covers 83–248 but not 129, 213, 240, 246, or 252). Two further challenges (83 and 248) are included as reproduction controls: the same code reproduces keys Hemmert already published, which exercises the whole pipeline end to end against a known answer.
 
 
 ## Results
@@ -46,17 +46,17 @@ and are re-verified on the laptop.
 ## Layout
 
 ```
-tii_public_keys/           original public parity-check matrices (vendored, digest-matched)
-  tii_129.txt … tii_252.txt      # new challenges (from ElenaKirshanova/tii_decoding_challenge)
-  tii_83.txt  tii_248.txt        # controls (from the Hemmert archive)
-tii_secret_keys/           recovered keys, one self-describing JSON per challenge
-  secret_key_tii_<N>.json        # support, Goppa polynomial, field modulus, parameters, provenance
-verify_recovered_key.sage  standalone SageMath verifier (no external dependencies)
-timings/                   this-laptop verification + end-to-end run records
-                             tii_<N>_laptop_run.txt   end-to-end recovery re-run here
-                             tii_<N>_verify.txt       independent verification here
-                             tii_129/213_recovery.txt large-memory-machine recovery records
-SOURCES.md                 upstream URLs, pinned commit, and SHA-256 of every public key
+tii_public_keys/              # original public parity-check matrices 
+  tii_129.txt … tii_252.txt   # new challenges (from ElenaKirshanova/tii_decoding_challenge)
+  tii_83.txt  tii_248.txt     # controls (from the Hemmert archive)
+tii_secret_keys/              # recovered keys, one self-describing JSON per challenge
+  secret_key_tii_<N>.json     # support, Goppa poly, field modulus, parameters, provenance
+verify_recovered_key.sage     # standalone SageMath verifier (no external dependencies)
+timings/                      #  laptop verification + end-to-end run records
+  tii_<N>_laptop_run.txt      # end-to-end recovery re-run here
+  tii_<N>_verify.txt          # independent verification here
+  tii_129/213_recovery.txt    # large-memory-machine recovery records
+SOURCES.md                    # upstream URLs, pinned commit, and SHA-256 of every public key
 ```
 
 A recovered key is stored as readable JSON rather than an opaque pickle. Each `secret_key_tii_<N>.json` carries the support and Goppa-polynomial coefficients as canonical `GF(2^m)` integers, the field-defining polynomial, the parameters `(m,r,n)`, the SHA-256 of the public key it was recovered against, and the attack provenance (parameters `p,s`, seed, code and Sage versions).
