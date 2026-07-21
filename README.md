@@ -15,7 +15,7 @@ This repository is laid out in the same style as T. Hemmert's
 
 ## Results
 
-Originally the number labels in TII challenges referred to "bit security" of the challenge, but this is long known to be inaccurate. We solved a challenge with supposed 2<sup>252</sup> bit security in under 12 minutes on a laptop system.
+Originally (2023), the number labels in TII challenges referred to the "bit security" of the challenge, but this has been known to be inaccurate. We solved a challenge originally labeled with 2<sup>252</sup> bit security in 6 minutes on a laptop system.
 
 All seven keys are recovered and independently verified: the recovered support `x` and Goppa polynomial `g` reconstruct exactly the public parity-check row space over `GF(2^m)` (see *Verifying* below).
 
