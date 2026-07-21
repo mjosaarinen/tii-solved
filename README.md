@@ -15,7 +15,7 @@ This repository is laid out in the same style as T. Hemmert's
 
 ## Results
 
-Originally (2023), the number labels in TII challenges referred to the "bit security" of the challenge, but this has been known to be inaccurate. We solved a challenge originally labeled with 2<sup>252</sup> bit security in 6 minutes on a laptop system.
+Originally (2023), the number labels in TII challenges referred to the "bit security" of the challenge, but this has been known to be inaccurate. As a highlight, we solved TII-252, a challenge originally labeled with 2<sup>252</sup> work factor -- in 6 minutes on a laptop system.
 
 All seven keys are recovered and independently verified: the recovered support `x` and Goppa polynomial `g` reconstruct exactly the public parity-check row space over `GF(2^m)` (see *Verifying* below).
 
