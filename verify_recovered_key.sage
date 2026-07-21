@@ -18,10 +18,9 @@ and accepts the key iff, over the extension field ``GF(2^m)``,
     RowSpace(H_rec) == RowSpace(H).
 
 Comparing row spaces (rather than a particular echelon form) makes the check
-insensitive to how ``H`` was stored.  It is the same acceptance condition and
-the same 13 checks used by the in-attack verifier; the extension degree ``m``
-and Goppa degree ``r`` are taken from the challenge parameters and checked, not
-re-derived from ``g``.
+insensitive to how ``H`` was stored.  The extension degree ``m``, Goppa degree
+``r``, and code length ``n`` are checked against the published challenge
+parameters, not re-derived from the candidate key.
 
 Requires SageMath.  The recovered keys live in ``tii_secret_keys/`` and the
 original public keys in ``tii_public_keys/`` (see README.md and SOURCES.md).
@@ -48,6 +47,18 @@ HERE = _script_dir()
 SECRET_DIR = os.path.join(HERE, "tii_secret_keys")
 PUBLIC_DIR = os.path.join(HERE, "tii_public_keys")
 
+# Published Track-2 challenge parameters.  Keeping these outside the candidate
+# JSON makes the m/r/n checks independent of the recovered key being tested.
+CHALLENGE_PARAMETERS = {
+    "83": (8, 5, 253),
+    "129": (9, 9, 509),
+    "213": (9, 10, 496),
+    "240": (10, 11, 1010),
+    "246": (10, 11, 1009),
+    "248": (9, 7, 482),
+    "252": (10, 11, 1008),
+}
+
 
 def sha256_file(path):
     h = hashlib.sha256()
@@ -57,8 +68,8 @@ def sha256_file(path):
     return h.hexdigest()
 
 
-def read_tii_rows(path):
-    """Parse a TII public-key file into a list-of-lists of 0/1 ints.
+def read_tii_public_key(path):
+    """Return ``(binary rows, optional field-modulus coefficients)``.
 
     Accepts both published formats: Hemmert's Python-literal list-of-lists and
     the original TII/Kirshanova NumPy layout (one bracketed binary row per line
@@ -67,6 +78,7 @@ def read_tii_rows(path):
     """
     with open(path) as fh:
         text = fh.read()
+    field_modulus_coefficients = None
     try:
         rows = ast.literal_eval(text)
     except SyntaxError:
@@ -89,8 +101,8 @@ def read_tii_rows(path):
         if len(rows) >= 2 and len(rows[-1]) != len(rows[0]):
             if any(len(r) != len(rows[0]) for r in rows[:-1]):
                 raise ValueError("%s: ragged matrix rows" % path)
-            # Drop the trailing defining-polynomial coefficient row.
-            rows.pop()
+            # Separate the trailing defining-polynomial coefficient row.
+            field_modulus_coefficients = rows.pop()
     if not rows or not all(isinstance(r, list) for r in rows):
         raise ValueError("%s: not a list of rows" % path)
     width = len(rows[0])
@@ -100,7 +112,7 @@ def read_tii_rows(path):
         for v in r:
             if v not in (0, 1):
                 raise ValueError("%s: non-binary entry %r" % (path, v))
-    return rows
+    return rows, field_modulus_coefficients
 
 
 def load_recovered_key(number):
@@ -146,10 +158,17 @@ def verify(number):
     check("public_key_sha256_matches", actual_pk_sha == expected_pk_sha,
           "public key SHA-256 %s != recorded %s" % (actual_pk_sha, expected_pk_sha))
 
-    H = matrix(GF(2), read_tii_rows(pk_path))
-    support_field = x[0].parent()
+    public_rows, public_modulus = read_tii_public_key(pk_path)
+    H = matrix(GF(2), public_rows)
+    support_field = x[0].parent() if x else None
     field_degree = field.degree()
     deg_g = g.degree()
+
+    expected_parameters = CHALLENGE_PARAMETERS.get(str(number))
+    check("parameters_match_challenge",
+          expected_parameters is not None and (m, r, n) == expected_parameters,
+          "candidate parameters (m,r,n)=%r != published %r"
+          % ((m, r, n), expected_parameters))
 
     # --- field / representation consistency -------------------------------- #
     check("public_matrix_over_gf2", H.base_ring().order() == 2,
@@ -160,12 +179,21 @@ def verify(number):
           "g.base_ring() does not match the support field")
     check("field_degree_matches_m", field_degree == m,
           "field degree %d != expected m=%d" % (field_degree, m))
+    recovered_modulus = [int(c) for c in field.modulus()]
+    check("field_modulus_matches_public",
+          public_modulus is None or recovered_modulus == public_modulus,
+          "candidate field modulus != modulus embedded in public key")
     check("goppa_degree_matches_r", deg_g == r,
           "deg(g)=%d != expected r=%d" % (deg_g, r))
+    check("goppa_polynomial_monic", g.is_monic(),
+          "g is not monic")
+    check("goppa_polynomial_irreducible", g.is_irreducible(),
+          "g is not irreducible")
 
     # --- support well-formedness ------------------------------------------- #
-    check("length_matches", len(x) == H.ncols(),
-          "len(x)=%d != n=%d" % (len(x), H.ncols()))
+    check("length_matches", len(x) == n == H.ncols(),
+          "len(x)=%d, candidate n=%d, public n=%d"
+          % (len(x), n, H.ncols()))
     check("support_distinct", len(set(x)) == len(x),
           "support entries are not distinct")
     check("support_in_field", all(xi in field for xi in x),
@@ -237,5 +265,8 @@ def main(argv):
 
 
 # Sage executes this file with ``__name__ == "sage.all"`` (not "__main__"), so
-# invoke main() directly.  ``sys.argv`` carries the command-line arguments.
-sys.exit(main(sys.argv))
+# invoke main() directly.  Raising only on failure avoids Sage treating even a
+# successful ``sys.exit(0)`` as an interpreter error.
+_exit_status = main(sys.argv)
+if _exit_status:
+    raise RuntimeError("verification failed with status %d" % _exit_status)

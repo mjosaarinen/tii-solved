@@ -49,17 +49,34 @@ and are re-verified on the laptop.
 tii_public_keys/              # original public parity-check matrices 
   tii_129.txt … tii_252.txt   # new challenges (from ElenaKirshanova/tii_decoding_challenge)
   tii_83.txt  tii_248.txt     # controls (from the Hemmert archive)
-tii_secret_keys/              # recovered keys, one self-describing JSON per challenge
-  secret_key_tii_<N>.json     # support, Goppa poly, field modulus, parameters, provenance
+tii_secret_keys/              # canonical recovered keys + compatibility exports
+  secret_key_tii_<N>.json     # canonical: field-basis integers + parameters + provenance
+  sk_McEliece_<N>.txt         # original TII Track-2 two-line text format
+  secret_key_tii_<N>.pckl     # Sage [support, g] format used by Hemmert's verifier
 verify_recovered_key.sage     # standalone SageMath verifier (no external dependencies)
-timings/                      #  laptop verification + end-to-end run records
+export_secret_keys.sage       # regenerate text/pickle views from the canonical JSON
+KEY_FORMATS.md                # exact representation and interoperability specification
+timings/                      # verification + end-to-end run records
   tii_<N>_laptop_run.txt      # end-to-end recovery re-run here
   tii_<N>_verify.txt          # independent verification here
   tii_129/213_recovery.txt    # large-memory-machine recovery records
 SOURCES.md                    # upstream URLs, pinned commit, and SHA-256 of every public key
 ```
 
-A recovered key is stored as readable JSON rather than an opaque pickle. Each `secret_key_tii_<N>.json` carries the support and Goppa-polynomial coefficients as canonical `GF(2^m)` integers, the field-defining polynomial, the parameters `(m,r,n)`, the SHA-256 of the public key it was recovered against, and the attack provenance (parameters `p,s`, seed, code and Sage versions).
+The readable JSON is the canonical form. Each `secret_key_tii_<N>.json` carries the support and Goppa-polynomial coefficients as canonical `GF(2^m)` integers, the field-defining polynomial, the parameters `(m,r,n)`, the SHA-256 of the public key it was recovered against, and the attack provenance (parameters `p,s`, seed, code and Sage versions). The `.txt` and `.pckl` files are generated compatibility views; see [KEY_FORMATS.md](KEY_FORMATS.md) for the exact field-element mapping and consumer details.
+
+## Interoperable key formats
+
+The checked-in `sk_McEliece_<N>.txt` files use the original TII Track-2 private-key layout and can be passed directly to the official `check_solution_track2.sage`. The checked-in `secret_key_tii_<N>.pckl` files use the `[support, g]` object layout consumed by Hemmert's verifier. Because Python pickle can execute code while loading, use a pickle only when it came from a trusted checkout; the JSON or TII text form is preferable for new tooling.
+
+Both views can be regenerated from one key or all canonical keys:
+
+```bash
+sage export_secret_keys.sage 252
+sage export_secret_keys.sage all
+```
+
+The optional second argument selects `tii` or `pickle` instead of both; an optional third argument sets the output directory. For example, `sage export_secret_keys.sage 252 tii /tmp/tii-keys` writes only the TII text view elsewhere.
 
 ## Verifying
 
@@ -77,10 +94,9 @@ H_rec[j*r + k, l] = (y_l · x_l^k)^(2^j),   y_l = 1/g(x_l),
 0 ≤ k < r = deg g,   0 ≤ j < m,   0 ≤ l < n
 ```
 
-accepting the key iff `RowSpace(H_rec) == RowSpace(H)` over `GF(2^m)`. Comparing row spaces (not a particular echelon form) makes the check independent of how `H` was stored. The extension degree `m` and Goppa degree `r` are taken from the challenge parameters and checked, not re-derived from `g`, so a wrong parameter surfaces as a failure rather than being silently absorbed. All 13 checks must pass for a key to be reported `CORRECT`.
+accepting the key iff `RowSpace(H_rec) == RowSpace(H)` over `GF(2^m)`. Comparing row spaces (not a particular echelon form) makes the check independent of how `H` was stored. The parameters `(m,r,n)` are checked against a verifier-owned table of published challenge parameters, and the field modulus is checked against the copy embedded in the original TII public key when present. The verifier also requires a monic irreducible Goppa polynomial. All 17 checks must pass for a key to be reported `CORRECT`.
 
 
 ## Original challenge data
 
 The public keys are verbatim copies of the upstream challenge files, bound to each recovered key by SHA-256. See **[SOURCES.md](SOURCES.md)** for the upstream repositories, the pinned commit, the full digest table, and how to re-fetch and re-check the originals. In short, the five new challenges come from the official TII challenge repository [`ElenaKirshanova/tii_decoding_challenge`](https://github.com/ElenaKirshanova/tii_decoding_challenge) (`public_keyRec/pk_McEliece_<N>.txt`), and the two controls from the Hemmert archive.
-
