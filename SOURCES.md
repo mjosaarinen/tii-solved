@@ -8,7 +8,7 @@ can be re-fetched and re-checked independently.
 
 ## Original TII decoding challenge (public keys)
 
-The five newly-solved challenges take their public keys from the official TII
+The six newly-solved challenges take their public keys from the official TII
 McEliece key-recovery challenge repository:
 
 - **Upstream:** <https://github.com/ElenaKirshanova/tii_decoding_challenge>
@@ -27,6 +27,7 @@ parity-check matrix). `verify_recovered_key.sage` parses this format directly.
 | TII-240 | `tii_public_keys/tii_240.txt` | `public_keyRec/pk_McEliece_240.txt` |
 | TII-246 | `tii_public_keys/tii_246.txt` | `public_keyRec/pk_McEliece_246.txt` |
 | TII-252 | `tii_public_keys/tii_252.txt` | `public_keyRec/pk_McEliece_252.txt` |
+| TII-254 | `tii_public_keys/tii_254.txt` | `public_keyRec/pk_McEliece_254.txt` |
 
 ## Reproduction controls (Hemmert archive)
 
@@ -55,6 +56,7 @@ re-computes and re-checks this binding on every run.
 efd88fa04d1c60052a3a0f0255e9e82ed5c215b09791e669384dff3db6f16a21  tii_240.txt
 9b2fbe2c1ef54884d6628d7228b4695371eb7676ced2273f500b4c5b94690ec9  tii_246.txt
 446059db69ea126339475b53d5c65969f6c0cde98f734cca87e167d84bafe067  tii_252.txt
+d1b7c7d808d2f129ecbbf6ea3c1d69a0a37c6e811ff8a1d856da131d46d2ccd6  tii_254.txt
 7980e22e84bf92ab5900c40e12dd6a019f55949f01c4d5209999f91f304271e4  tii_83.txt
 1d5d4b1f8511d97203aa1f3ccd41e90c5fd405b452c713ae4e08479e5c164fc0  tii_248.txt
 ```

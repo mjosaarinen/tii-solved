@@ -1,6 +1,7 @@
 # tii-solved — recovered keys for previously unsolved TII McEliece challenges
 
-July 21, 2026 -- Markku-Juhani O. Saarinen `<markku-juhani.saarinen@tuni.fi>`
+July 21, 2026 (updated September 8, 2026) -- Markku-Juhani O. Saarinen
+`<markku-juhani.saarinen@tuni.fi>`
 
 
 At the end of June 2026, Tobias Hemmert (BSI) published IACR ePrint 2026/1339, ["Key recovery for the McEliece cryptosystem using higher-order vanishing"](https://eprint.iacr.org/2026/1339). In the work, Hemmert presents a new key recovery attack against the McEliece cryptosystem with binary Goppa codes that applies to a wide range of parameter sets. Hemmert also published solutions to TII McEliece key recovery challenges.
@@ -10,17 +11,27 @@ This repository publishes further recovered secret keys for [TII McEliece key-re
 This repository is laid out in the same style as T. Hemmert's
 [`key-recovery-mceliece-tii-solutions`](https://github.com/tobhem/key-recovery-mceliece-tii-solutions): public keys, recovered secret keys, and one script that checks a recovered key against its public key.
 
-**Five of these challenges were previously unsolved** (at least as far as we know) — they are absent from the Hemmert archive (which covers 83–248 but not 129, 213, 240, 246, or 252). Two further challenges (83 and 248) are included as reproduction controls: the same code reproduces keys Hemmert already published, which exercises the whole pipeline end to end against a known answer.
+**Six of these challenges were previously unsolved** (at least as far as we
+know) — they are absent from the Hemmert archive (which covers 83–248 but not
+129, 213, 240, 246, 252, or 254). Two further challenges (83 and 248) are
+included as reproduction controls: the same code reproduces keys Hemmert
+already published, which exercises the whole pipeline end to end against a
+known answer.
 
 
 ## Results
 
 Originally (2023), the number labels in TII challenges referred to the "bit security" of the challenge, but this has been known to be inaccurate. As a highlight, we solved TII-252, a challenge originally labeled with 2<sup>252</sup> work factor -- in 6 minutes on a laptop system.
 
-All seven keys are recovered and independently verified: the recovered support `x` and Goppa polynomial `g` reconstruct exactly the public parity-check row space over `GF(2^m)` (see *Verifying* below).
+All eight keys are recovered and independently verified: the recovered support
+`x` and Goppa polynomial `g` reconstruct exactly the public parity-check row
+space over `GF(2^m)` (see *Verifying* below). TII-254 is an equivalent binary
+Goppa decoding key; it is not claimed to be the challenge author's original
+support and polynomial representation.
 
 | Challenge | m | r | n | status | wall time | memory | system |
 |-----------|---|---|------|--------|-----------|--------|--------|
+| **TII-254** | 8 | 12 | 223 | **new** | 16h Wall | 128 GiB | CSC |
 | **TII-252** | 10 | 11 | 1008 | **new** | 6 min 15 s | 2.7 GiB | 12-core laptop |
 | **TII-246** | 10 | 11 | 1009 | **new** | 3 min 11 s | 2.7 GiB | 12-core laptop |
 | **TII-240** | 10 | 11 | 1010 | **new** | 3 min 06 s | 2.7 GiB | 12-core laptop |
@@ -29,7 +40,26 @@ All seven keys are recovered and independently verified: the recovered support `
 | TII-248 | 9 | 7 | 482 | control | 13 min 38 s | 0.4 GiB | 12-core laptop |
 | TII-83  | 8 | 5 | 253 | control | 24 s | 1.7 GiB | 12-core laptop |
 
-`m` = field extension degree, `r` = Goppa degree (= `deg g`), `n` = code length (= `|support|`). *Wall time* and *memory* (peak resident set of the largest process) are measured on the stated **system**: the **12-core laptop** is an AMD Ryzen AI 9 HX 370 (12 cores / 24 threads, 30 GiB); the **28-vCPU server** is a larger-memory machine used only for the two recoveries whose working set exceeds 30 GiB (TII-129/213), whose keys are then re-verified on the laptop. Core counts follow the paper's convention of physical cores, not hardware threads. Every recovery reads the public key only, ends in `verified_recovery`, and re-derives the committed key; per-run records are in `timings/`.
+`m` = field extension degree, `r` = Goppa degree (= `deg g`), `n` = code
+length (= `|support|`). *Wall time* and *memory* (peak resident set of the
+largest process) are measured on the stated **system**: the **12-core laptop**
+is an AMD Ryzen AI 9 HX 370 (12 cores / 24 threads, 30 GiB); the **28-vCPU
+server** is a larger-memory machine used only for the two recoveries whose
+working set exceeds 30 GiB (TII-129/213), whose keys are then re-verified on
+the laptop. Core counts follow the paper's convention of physical cores, not
+hardware threads. Every recovery reads the public key only and re-derives the
+published key; per-run records are in `timings/`.
+
+The successful frozen TII-254 run used about 21.3 GH200 GPU-hours in total:
+13 h 36 min for the Krylov sequence and eight reconstruction shards of about
+58 minutes each. Parallel reconstruction kept the critical wall time to
+approximately 16 hours, excluding queueing. PM-basis took about one hour on 64
+CPU cores; the remaining exact certification and Sage finishing took minutes.
+Peak CPU-node allocation was 128 GiB RAM, with tens of GiB of temporary
+scratch storage. These figures describe the successful production run only,
+excluding software development, calibration, and refused/repaired jobs.
+Once the compact complete-pair evidence exists, locator recovery and complete
+key verification take about 40 seconds. 
 
 **Controls vs. Hemmert.** TII-83 and TII-248 reproduce keys already published by Hemmert, so they double as a head-to-head against ePrint 2026/1339, Table 1, whose figures were measured on a **2×128-core server** (two AMD EPYC 9745, 128 cores each):
 
@@ -46,8 +76,8 @@ and are re-verified on the laptop.
 ## Layout
 
 ```
-tii_public_keys/              # original public parity-check matrices 
-  tii_129.txt … tii_252.txt   # new challenges (from ElenaKirshanova/tii_decoding_challenge)
+tii_public_keys/              # original public parity-check matrices
+  tii_129.txt … tii_254.txt   # new challenges (from ElenaKirshanova/tii_decoding_challenge)
   tii_83.txt  tii_248.txt     # controls (from the Hemmert archive)
 tii_secret_keys/              # canonical recovered keys + compatibility exports
   secret_key_tii_<N>.json     # canonical: field-basis integers + parameters + provenance
@@ -63,7 +93,15 @@ timings/                      # verification + end-to-end run records
 SOURCES.md                    # upstream URLs, pinned commit, and SHA-256 of every public key
 ```
 
-The readable JSON is the canonical form. Each `secret_key_tii_<N>.json` carries the support and Goppa-polynomial coefficients as canonical `GF(2^m)` integers, the field-defining polynomial, the parameters `(m,r,n)`, the SHA-256 of the public key it was recovered against, and the attack provenance (parameters `p,s`, seed, code and Sage versions). The `.txt` and `.pckl` files are generated compatibility views; see [KEY_FORMATS.md](KEY_FORMATS.md) for the exact field-element mapping and consumer details.
+The readable JSON is the canonical form. Each `secret_key_tii_<N>.json`
+carries the support and Goppa-polynomial coefficients as canonical `GF(2^m)`
+integers, the field-defining polynomial, the parameters `(m,r,n)`, the SHA-256
+of the public key it was recovered against, and attack provenance. This
+includes `p,s` and seed values for the HOVER runs where applicable; TII-254
+instead binds its pair-core method and sealed result/validation identities.
+The `.txt` and `.pckl` files are generated compatibility views; see
+[KEY_FORMATS.md](KEY_FORMATS.md) for the exact field-element mapping and
+consumer details.
 
 ## Interoperable key formats
 
@@ -99,4 +137,11 @@ accepting the key iff `RowSpace(H_rec) == RowSpace(H)` over `GF(2^m)`. Comparing
 
 ## Original challenge data
 
-The public keys are verbatim copies of the upstream challenge files, bound to each recovered key by SHA-256. See **[SOURCES.md](SOURCES.md)** for the upstream repositories, the pinned commit, the full digest table, and how to re-fetch and re-check the originals. In short, the five new challenges come from the official TII challenge repository [`ElenaKirshanova/tii_decoding_challenge`](https://github.com/ElenaKirshanova/tii_decoding_challenge) (`public_keyRec/pk_McEliece_<N>.txt`), and the two controls from the Hemmert archive.
+The public keys are verbatim copies of the upstream challenge files, bound to
+each recovered key by SHA-256. See **[SOURCES.md](SOURCES.md)** for the upstream
+repositories, the pinned commit, the full digest table, and how to re-fetch
+and re-check the originals. In short, the six new challenges come from the
+official TII challenge repository
+[`ElenaKirshanova/tii_decoding_challenge`](https://github.com/ElenaKirshanova/tii_decoding_challenge)
+(`public_keyRec/pk_McEliece_<N>.txt`), and the two controls from the Hemmert
+archive.
