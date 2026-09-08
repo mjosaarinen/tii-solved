@@ -18,7 +18,7 @@ support and polynomial representation.
 
 | Challenge | m | r | n | status | wall time | memory | system |
 |-----------|---|---|------|--------|-----------|--------|--------|
-| **TII-254** | 8 | 12 | 223 | **new** | 16h Wall | 128 GiB | CSC |
+| **TII-254** | 8 | 12 | 223 | **new** | 16h Wall | 128 GiB | GH200's / csc.fi |
 | **TII-252** | 10 | 11 | 1008 | **new** | 6 min 15 s | 2.7 GiB | 12-core laptop |
 | **TII-246** | 10 | 11 | 1009 | **new** | 3 min 11 s | 2.7 GiB | 12-core laptop |
 | **TII-240** | 10 | 11 | 1010 | **new** | 3 min 06 s | 2.7 GiB | 12-core laptop |
