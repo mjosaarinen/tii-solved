@@ -8,7 +8,7 @@ This repository is laid out in the same style as T. Hemmert's
 
 ## Results
 
-Originally (2023), the number labels in TII challenges referred to the "bit security" of the challenge, but this has been known to be inaccurate. As a highlight, we solved TII-252, a challenge originally labeled with 2<sup>252</sup> work factor -- in 6 minutes on a laptop system.
+Originally (2023), the number labels in TII challenges referred to the "bit security" of the challenge, but this has been known to be inaccurate. As a highlight, we solved TII-252, a challenge originally labeled with 2<sup>252</sup> work factor -- in 6 minutes on a laptop system. TII-254 required substantially more effort (and a completely different cryptanalytic algorithm, which will be discussed in a forthcoming publication). Note that TII-253 was solved on August 19, 2026 by Anthropic AI; our TII-254 is the current record at the time of writing (as far as we know.) Of the original challenges, TII-255 remains to be conquered.
 
 All eight keys are recovered and independently verified: the recovered support
 `x` and Goppa polynomial `g` reconstruct exactly the public parity-check row
