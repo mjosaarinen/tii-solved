@@ -3,21 +3,8 @@
 July 21, 2026 (updated September 8, 2026) -- Markku-Juhani O. Saarinen
 `<markku-juhani.saarinen@tuni.fi>`
 
-
-At the end of June 2026, Tobias Hemmert (BSI) published IACR ePrint 2026/1339, ["Key recovery for the McEliece cryptosystem using higher-order vanishing"](https://eprint.iacr.org/2026/1339). In the work, Hemmert presents a new key recovery attack against the McEliece cryptosystem with binary Goppa codes that applies to a wide range of parameter sets. Hemmert also published solutions to TII McEliece key recovery challenges.
-
-This repository publishes further recovered secret keys for [TII McEliece key-recovery challenges](https://crowdchallenge.tii.ae/mceliece-challenges/) that were broken with a new **HOVER** ("Higher-Order Vanishing Endomorphism Recovery") variant of Hemmert's HOV attack.
-
 This repository is laid out in the same style as T. Hemmert's
 [`key-recovery-mceliece-tii-solutions`](https://github.com/tobhem/key-recovery-mceliece-tii-solutions): public keys, recovered secret keys, and one script that checks a recovered key against its public key.
-
-**Six of these challenges were previously unsolved** (at least as far as we
-know) — they are absent from the Hemmert archive (which covers 83–248 but not
-129, 213, 240, 246, 252, or 254). Two further challenges (83 and 248) are
-included as reproduction controls: the same code reproduces keys Hemmert
-already published, which exercises the whole pipeline end to end against a
-known answer.
-
 
 ## Results
 
@@ -50,7 +37,7 @@ the laptop. Core counts follow the paper's convention of physical cores, not
 hardware threads. Every recovery reads the public key only and re-derives the
 published key; per-run records are in `timings/`.
 
-The successful frozen TII-254 run used about 21.3 GH200 GPU-hours in total:
+The successful TII-254 run used about 21.3 GH200 GPU-hours in total:
 13 h 36 min for the Krylov sequence and eight reconstruction shards of about
 58 minutes each. Parallel reconstruction kept the critical wall time to
 approximately 16 hours, excluding queueing. PM-basis took about one hour on 64
