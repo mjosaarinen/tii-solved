@@ -1,14 +1,17 @@
 # tii-solved — recovered keys for previously unsolved TII McEliece challenges
 
-July 21, 2026 (updated September 8, 2026) -- Markku-Juhani O. Saarinen
-`<markku-juhani.saarinen@tuni.fi>`
+Markku-Juhani O. Saarinen `<markku-juhani.saarinen@tuni.fi>`
 
 This repository is laid out in the same style as T. Hemmert's
 [`key-recovery-mceliece-tii-solutions`](https://github.com/tobhem/key-recovery-mceliece-tii-solutions): public keys, recovered secret keys, and one script that checks a recovered key against its public key.
 
+Of the new recoveries, up to TII-252 was obtained using ["HOVER: Higher-Order Vanishing Endomorphism Recovery"](https://eprint.iacr.org/2026/1778) in late July 2026. TII-254 was attacked with "Two-Anchor Holdout/Hermite" and required substantially more effort; see [`tii254-artifact`](https://github.com/mjosaarinen/tii254-artifact). This solution was obtained on September 8, 2026.
+
+TII-253 was solved on [August 19, 2026 by Steve Weis (Anthropic AI)](https://github.com/sweis/mceliece-challenges/blob/main/sk_McEliece_253.txt); our TII-254 is the current record at the time of writing (as far as we know.) Of the original challenges, TII-255 remains to be conquered.
+
 ## Results
 
-Originally (2023), the number labels in TII challenges referred to the "bit security" of the challenge, but this has been known to be inaccurate. As a highlight, we solved TII-252, a challenge originally labeled with 2<sup>252</sup> work factor -- in 6 minutes on a laptop system. TII-254 required substantially more effort (and a completely different cryptanalytic algorithm, which will be discussed in a forthcoming publication). Note that TII-253 was solved on August 19, 2026 by Anthropic AI; our TII-254 is the current record at the time of writing (as far as we know.) Of the original challenges, TII-255 remains to be conquered.
+Originally (2023), the number labels in TII challenges referred to the "bit security" of the challenge, but this has been known to be inaccurate. 
 
 All eight keys are recovered and independently verified: the recovered support
 `x` and Goppa polynomial `g` reconstruct exactly the public parity-check row
@@ -16,16 +19,16 @@ space over `GF(2^m)` (see *Verifying* below). TII-254 is an equivalent binary
 Goppa decoding key; it is not claimed to be the challenge author's original
 support and polynomial representation.
 
-| Challenge | m | r | n | status | wall time | memory | system |
+| Challenge | m | r | n | status | method | wall time | memory | system |
 |-----------|---|---|------|--------|-----------|--------|--------|
-| **TII-254** | 8 | 12 | 223 | **new** | 16h Wall | 128 GiB | GH200's / csc.fi |
-| **TII-252** | 10 | 11 | 1008 | **new** | 6 min 15 s | 2.7 GiB | 12-core laptop |
-| **TII-246** | 10 | 11 | 1009 | **new** | 3 min 11 s | 2.7 GiB | 12-core laptop |
-| **TII-240** | 10 | 11 | 1010 | **new** | 3 min 06 s | 2.7 GiB | 12-core laptop |
-| **TII-213** | 9 | 10 | 496 | **new** | 6 h 45 min | 144 GiB | 28-vCPU server |
-| **TII-129** | 9 | 9 | 509 | **new** | 4 h 30 min | 80 GiB | 28-vCPU server |
-| TII-248 | 9 | 7 | 482 | control | 13 min 38 s | 0.4 GiB | 12-core laptop |
-| TII-83  | 8 | 5 | 253 | control | 24 s | 1.7 GiB | 12-core laptop |
+| **TII-254** | 8 | 12 | 223 | **new*** | 2-Anchor | 16h Wall | 128 GiB | GH200s |
+| **TII-252** | 10 | 11 | 1008 | **new** | HOVER | 6 min 15 s | 2.7 GiB | 12-core laptop |
+| **TII-246** | 10 | 11 | 1009 | **new** | HOVER | 3 min 11 s | 2.7 GiB | 12-core laptop |
+| **TII-240** | 10 | 11 | 1010 | **new** | HOVER | 3 min 06 s | 2.7 GiB | 12-core laptop |
+| **TII-213** | 9 | 10 | 496 | **new** | HOVER | 6 h 45 min | 144 GiB | 28-vCPU server |
+| **TII-129** | 9 | 9 | 509 | **new** | HOVER | 4 h 30 min | 80 GiB | 28-vCPU server |
+| TII-248 | 9 | 7 | 482 | control | HOV | 13 min 38 s | 0.4 GiB | 12-core laptop |
+| TII-83  | 8 | 5 | 253 | control | HOV | 24 s | 1.7 GiB | 12-core laptop |
 
 `m` = field extension degree, `r` = Goppa degree (= `deg g`), `n` = code
 length (= `|support|`). *Wall time* and *memory* (peak resident set of the
@@ -34,19 +37,9 @@ is an AMD Ryzen AI 9 HX 370 (12 cores / 24 threads, 30 GiB); the **28-vCPU
 server** is a larger-memory machine used only for the two recoveries whose
 working set exceeds 30 GiB (TII-129/213), whose keys are then re-verified on
 the laptop. Core counts follow the paper's convention of physical cores, not
-hardware threads. Every recovery reads the public key only and re-derives the
-published key; per-run records are in `timings/`.
+hardware threads. Per-run records are in `timings/`.
 
-The successful TII-254 run used about 21.3 GH200 GPU-hours in total:
-13 h 36 min for the Krylov sequence and eight reconstruction shards of about
-58 minutes each. Parallel reconstruction kept the critical wall time to
-approximately 16 hours, excluding queueing. PM-basis took about one hour on 64
-CPU cores; the remaining exact certification and Sage finishing took minutes.
-Peak CPU-node allocation was 128 GiB RAM, with tens of GiB of temporary
-scratch storage. These figures describe the successful production run only,
-excluding software development, calibration, and refused/repaired jobs.
-Once the compact complete-pair evidence exists, locator recovery and complete
-key verification take about 40 seconds. 
+
 
 **Controls vs. Hemmert.** TII-83 and TII-248 reproduce keys already published by Hemmert, so they double as a head-to-head against ePrint 2026/1339, Table 1, whose figures were measured on a **2×128-core server** (two AMD EPYC 9745, 128 cores each):
 
