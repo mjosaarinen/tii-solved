@@ -21,14 +21,14 @@ support and polynomial representation.
 
 | Challenge | m | r | n | status | method | wall time | memory | system |
 |-----------|---|---|------|------|--------|-----------|--------|--------|
-| **TII-254** | 8 | 12 | 223 | **new*** | 2-Anchor | 16h Wall | 128 GiB | GH200s |
+| **TII-254** | 8 | 12 | 223 | **new** | 2-Anchor | 16h Wall | 128 GiB | [Roihu](https://docs.csc.fi/computing/systems-roihu/) / GH200s |
 | **TII-252** | 10 | 11 | 1008 | **new** | HOVER | 6 min 15 s | 2.7 GiB | 12-core laptop |
 | **TII-246** | 10 | 11 | 1009 | **new** | HOVER | 3 min 11 s | 2.7 GiB | 12-core laptop |
 | **TII-240** | 10 | 11 | 1010 | **new** | HOVER | 3 min 06 s | 2.7 GiB | 12-core laptop |
 | **TII-213** | 9 | 10 | 496 | **new** | HOVER | 6 h 45 min | 144 GiB | 28-vCPU server |
 | **TII-129** | 9 | 9 | 509 | **new** | HOVER | 4 h 30 min | 80 GiB | 28-vCPU server |
-| TII-248 | 9 | 7 | 482 | control | HOV | 13 min 38 s | 0.4 GiB | 12-core laptop |
-| TII-83  | 8 | 5 | 253 | control | HOV | 24 s | 1.7 GiB | 12-core laptop |
+| TII-248 | 9 | 7 | 482 | control | HOVER | 13 min 38 s | 0.4 GiB | 12-core laptop |
+| TII-83  | 8 | 5 | 253 | control | HOVER | 24 s | 1.7 GiB | 12-core laptop |
 
 `m` = field extension degree, `r` = Goppa degree (= `deg g`), `n` = code
 length (= `|support|`). *Wall time* and *memory* (peak resident set of the
