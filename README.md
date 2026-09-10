@@ -20,7 +20,7 @@ Goppa decoding key; it is not claimed to be the challenge author's original
 support and polynomial representation.
 
 | Challenge | m | r | n | status | method | wall time | memory | system |
-|-----------|---|---|------|--------|-----------|--------|--------|
+|-----------|---|---|------|------|--------|-----------|--------|--------|
 | **TII-254** | 8 | 12 | 223 | **new*** | 2-Anchor | 16h Wall | 128 GiB | GH200s |
 | **TII-252** | 10 | 11 | 1008 | **new** | HOVER | 6 min 15 s | 2.7 GiB | 12-core laptop |
 | **TII-246** | 10 | 11 | 1009 | **new** | HOVER | 3 min 11 s | 2.7 GiB | 12-core laptop |
